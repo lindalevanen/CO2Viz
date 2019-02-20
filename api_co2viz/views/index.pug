@@ -1,0 +1,14 @@
+extends layout
+block content
+  h1= PARSEXML
+  p Population information
+  table
+      tr
+        th Country or Area
+        th Year
+        th #{data[0] ? data[0]['Item'] : 'Value'}
+      each entry, index in data
+       tr
+        td #{entry['Country or Area']}
+        td #{entry['Year']}
+        td #{entry['Value']}
