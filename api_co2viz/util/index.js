@@ -42,10 +42,31 @@ function getRecords(url, callback) {
 
 function getCountries(parsedArr) {
   const byCountry = R.groupBy(el => el[Filters.COUNTRY].key)
-  const codeAndName = R.mapObjIndexed((el, key) => el[0][Filters.COUNTRY].val,
+  const codeAndName = R.map(el => el[0][Filters.COUNTRY].val,
     byCountry(parsedArr)
   )
   return codeAndName
+}
+
+function mergeData(pData, eData) {
+  const merged = R.map(item => {
+    const co2Data = R.find(x => x['Year'].val == item['Year'].val)(eData)
+    return (
+      {
+        ['Country or Area']: item['Country or Area'],
+        ['Year']: item['Year'],
+        population: {
+          ['Item']: item['Item'],
+          ['Value']: item['Value']
+        } ,
+        co2: {
+          ['Item']: co2Data ? co2Data['Item'] : undefined,
+          ['Value']: co2Data ? co2Data['Value'] : undefined
+        } 
+      }
+    )
+  }, pData)
+  return merged
 }
 
 function filterBy(attr, parsedArr, value) {
@@ -73,5 +94,6 @@ module.exports = {
   parseXML: getRecords,
   filterBy,
   getCountries,
-  Filters
+  mergeData,
+  Filters,
 }

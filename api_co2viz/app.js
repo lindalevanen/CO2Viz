@@ -24,31 +24,48 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/population', populationRouter);
-//app.use('/emissions', emissionsRouter);
-
 app.get('/', function(req, res, next) {
   res.send('Hello world!');
 })
 
-app.get('/api/emissions', function(req, res, next) {
-  Helpers.parseXML(emissionsXML, function(records) {
-    var data = filterData(records, req.query)
-    res.send(JSON.stringify(data));
+app.get('/api/countryData', function(req, res, next) {
+  Helpers.parseXML(populationXML, function(pRecords) {
+    Helpers.parseXML(emissionsXML, function(eRecords) {
+      const pData = filterData(pRecords, req.query)
+      const eData = filterData(eRecords, req.query)
+      const mergedData = Helpers.mergeData(pData, eData)
+      res.send(JSON.stringify(mergedData));
+    })
   });
 });
 
-app.get('/api/population', function(req, res, next) {
-  Helpers.parseXML(populationXML, function(records) {
-    var data = filterData(records, req.query)
-    res.send(JSON.stringify(data));
+/*app.get('/api/powerCountries', function(req, res, next) {
+  Helpers.parseXML(populationXML, function(pRecords) {
+    Helpers.parseXML(emissionsXML, function(eRecords) {
+      const pData = filterData(pRecords, req.query)
+      const eData = filterData(eRecords, req.query)
+      const mergedData = Helpers.mergeData(pData, eData)
+      res.send(JSON.stringify(mergedData));
+    })
   });
-});
+});*/
 
+/*se palauttais jotai 
+[{ 
+ year: '1960',
+ powerCountries: {
+   co2: int,
+   population: int
+ },
+ others: {
+     co2: int,
+    population: int
+  }
+}, ...
+] */
 app.get('/api/countries', function(req, res, next) {
   Helpers.parseXML(populationXML, function(records) {
     var data = Helpers.getCountries(records)
-    console.log(data)
     res.send(JSON.stringify(data));
   });
 })
@@ -57,13 +74,13 @@ function filterData(data, query) {
   const { country, year, greatPowerCountries } = query
   var fData = data
   if (country) {
-    fData = Helpers.filterBy(Helpers.Filters.COUNTRY, data, country)
+    fData = Helpers.filterBy(Helpers.Filters.COUNTRY, fData, country)
   }
   if (year) {
-    fData = Helpers.filterBy(Helpers.Filters.YEAR, data, year)
+    fData = Helpers.filterBy(Helpers.Filters.YEAR, fData, year)
   }
   if (greatPowerCountries) {
-    fData = Helpers.filterBy(Helpers.Filters.GREATPOWER, data)
+    fData = Helpers.filterBy(Helpers.Filters.GREATPOWER, fData)
   }
   return fData
 }
