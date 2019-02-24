@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const ContentWrapper = styled.div`
   height: 100%;
   background: ${props => props.theme.primaryColorDark};
   background-image: linear-gradient(
-    ${props => props.theme.primaryColorDark}, ${props => props.theme.primaryColor}
+    ${props => props.theme.primaryColorDark},
+    ${props => props.theme.primaryColor}
   );
 `
 
 const Content = styled.div`
-    margin: 20px;
+  margin: 20px;
 `
 
 const Header = styled.div`
@@ -45,12 +46,12 @@ const Footer = styled.div`
 
 class CoreLayout extends Component {
   render() {
-    return(
+    return (
       <ContentWrapper>
-        <Header><p>CO2-Viz</p></Header>
-        <Content>
-          {this.props.children}
-        </Content>
+        <Header>
+          <p>CO2-Viz</p>
+        </Header>
+        <Content>{this.props.children}</Content>
         <Footer>
           <p>Made by Linda Levänen, 2019</p>
         </Footer>
@@ -59,4 +60,4 @@ class CoreLayout extends Component {
   }
 }
 
-export default CoreLayout;
+export default CoreLayout

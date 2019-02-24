@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import './App.css';
-import "react-virtualized-select/styles.css";
+import React, { Component } from 'react'
+import './App.css'
+import 'react-virtualized-select/styles.css'
 
 import { ThemeProvider } from 'styled-components'
 
@@ -16,7 +16,7 @@ const theme = {
 class App extends Component {
   render() {
     return (
-      <div id='root'>
+      <div id="root">
         <ThemeProvider theme={theme}>
           <CoreLayout>
             <Home />
@@ -27,4 +27,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
