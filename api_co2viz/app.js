@@ -4,9 +4,6 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 
-//const populationRouter = require('./routes/population')
-//var emissionsRouter = require('./routes/emissions');
-
 const emissionsXML = __dirname + '/public/xmlfiles/API_EN.ATM.CO2E.KT_DS2_en_xml_v2_10474794.xml'
 const populationXML = __dirname + '/public/xmlfiles/API_SP.POP.TOTL_DS2_en_xml_v2_10473997.xml'
 
@@ -39,30 +36,6 @@ app.get('/api/countryData', function(req, res, next) {
   })
 })
 
-/*app.get('/api/powerCountries', function(req, res, next) {
-  Helpers.parseXML(populationXML, function(pRecords) {
-    Helpers.parseXML(emissionsXML, function(eRecords) {
-      const pData = filterData(pRecords, req.query)
-      const eData = filterData(eRecords, req.query)
-      const mergedData = Helpers.mergeData(pData, eData)
-      res.send(JSON.stringify(mergedData));
-    })
-  });
-});*/
-
-/*se palauttais jotai 
-[{ 
- year: '1960',
- powerCountries: {
-   co2: int,
-   population: int
- },
- others: {
-     co2: int,
-    population: int
-  }
-}, ...
-] */
 app.get('/api/countries', function(req, res, next) {
   Helpers.parseXML(populationXML, function(records) {
     var data = Helpers.getCountries(records)

@@ -13,8 +13,8 @@ import {
 import styled, { withTheme } from 'styled-components'
 
 const ChartWrapper = styled.div`
-  background: ${props => props.theme.primaryColorDark + '8C'};
   pointer-events: ${props => (props.disable ? 'none' : 'auto')};
+  color: white;
 `
 
 const coolColors = [
@@ -32,7 +32,7 @@ const coolColors = [
 
 class CountryChart extends Component {
   render() {
-    const { data, yLabel } = this.props
+    const { data, yLabel, unit } = this.props
 
     return (
       <ChartWrapper disable={data.length === 0}>
@@ -55,15 +55,13 @@ class CountryChart extends Component {
                 })}
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="year" tick={{ fill: 'white' }} height={40} />
-            <YAxis width={100} tick={{ fill: 'white' }} name="CO2 emissions" unit="kt">
-              <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
+            <YAxis width={80} tick={{ fill: 'white' }} name="CO2 emissions" unit={unit}>
+              <Label angle={270} position="left" style={{ textAnchor: 'middle', fill: 'white' }}>
                 {yLabel}
               </Label>
             </YAxis>
             <Legend />
-            <Tooltip
-              contentStyle={{ background: this.props.theme.primaryColorDark, color: 'white' }}
-            />
+            <Tooltip contentStyle={{ background: this.props.theme.darkBG, color: 'white' }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartWrapper>
