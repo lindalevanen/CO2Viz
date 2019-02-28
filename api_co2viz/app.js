@@ -51,7 +51,7 @@ app.get('/api/countries', (req, res, next) => {
     })
     .catch(error => {
       console.log(error)
-      res.status(500).send({ message: error })
+      res.status(500).send({ message: error }) // test
     })
 })
 
