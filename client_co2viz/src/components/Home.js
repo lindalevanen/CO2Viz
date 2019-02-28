@@ -85,10 +85,17 @@ class Home extends Component {
     fetch(`/api/countryData?country=${code}`)
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          loading: false,
-          countryData: { ...this.state.countryData, [code]: data }
-        })
+        const countryStillSelected = R.find(R.propEq('value', code))(this.state.selectedCountries)
+        if (countryStillSelected) {
+          this.setState({
+            loading: false,
+            countryData: { ...this.state.countryData, [code]: data }
+          })
+        } else {
+          this.setState({
+            loading: false
+          })
+        }
       })
       .catch(e => {
         this.setState({ loading: false })
