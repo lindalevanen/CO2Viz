@@ -8,8 +8,14 @@
 # testing
 /coverage
 
-# production
-/build
+# comment for production
+#/build
+
+# comment for development
+src/*
+public/*
+build/static/css/*.map
+build/static/js/*.map
 
 # misc
 .DS_Store
