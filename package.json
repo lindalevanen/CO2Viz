@@ -5,7 +5,7 @@
     "start": "nodemon api_co2viz/app.js",
     "heroku-postbuild": "cd client_co2viz && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "client": "cd client_co2viz && npm start",
-    "server": "nodemon api_co2viz/app.js",
+    "server": "nodemon api_co2viz/app.js"
   },
   "repository": {
     "type": "git",
