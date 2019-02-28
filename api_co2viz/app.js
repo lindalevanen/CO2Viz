@@ -21,29 +21,41 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.get('/', function(req, res, next) {
+app.get('/', (req, res, next) => {
   res.send('Hello world!')
 })
 
-app.get('/api/countryData', function(req, res, next) {
-  Helpers.parseXML(populationXML, function(pRecords) {
-    Helpers.parseXML(emissionsXML, function(eRecords) {
+app.get('/api/countryData', (req, res, next) => {
+  Helpers.getRecords(populationXML)
+    .then(records => {
+      pRecords = records
+      return Helpers.getRecords(emissionsXML)
+    })
+    .then(records => {
+      eRecords = records
       const pData = filterData(pRecords, req.query)
       const eData = filterData(eRecords, req.query)
       const mergedData = Helpers.mergeData(pData, eData)
-      res.send(JSON.stringify(mergedData))
+      res.status(200).send(JSON.stringify(mergedData))
+
+    }).catch(e => {
+      console.log(e)
     })
-  })
 })
 
-app.get('/api/countries', function(req, res, next) {
-  Helpers.parseXML(populationXML, function(records) {
-    var data = Helpers.getCountries(records)
-    res.send(JSON.stringify(data))
-  })
+app.get('/api/countries', (req, res, next) => {
+  Helpers.getRecords(populationXML)
+    .then(records => {
+      const data = Helpers.getCountries(records)
+      res.status(200).send(JSON.stringify(data))
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).send({ message: error })
+    })
 })
 
-function filterData(data, query) {
+const filterData = (data, query) => {
   const { country, year, greatPowerCountries } = query
   var fData = data
   if (country) {
