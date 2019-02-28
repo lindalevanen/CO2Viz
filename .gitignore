@@ -8,8 +8,15 @@
 # testing
 /coverage
 
-# production
-/build
+# comment for production
+#/build
+
+# comment for development
+client_co2viz/src/*
+client_co2viz/public/*
+client_co2viz/build/static/css/*.map
+client_co2viz/build/static/js/*.map
+
 
 # misc
 .DS_Store
