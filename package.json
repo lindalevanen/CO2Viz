@@ -7,6 +7,9 @@
     "client": "cd client_co2viz && npm start",
     "server": "nodemon api_co2viz/app.js"
   },
+  "engines": {
+    "node": "10.3.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lindalevanen/CO2Viz.git"
