@@ -2,7 +2,7 @@
   "name": "co2viz",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon api_co2viz/app.js",
+    "start": "node api_co2viz/app.js",
     "heroku-postbuild": "cd client_co2viz && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "client": "cd client_co2viz && npm start",
     "server": "nodemon api_co2viz/app.js"
