@@ -6,6 +6,14 @@ const parser = new xml2js.Parser()
 
 const powerCountries = require('./../public/greatPowers.json')
 
+const Filters = {
+  COUNTRY: 'Country or Area',
+  YEAR: 'Year',
+  ITEM: 'Item',
+  VALUE: 'Value',
+  GREATPOWER: 'Great Power'
+}
+
 const parseByAttr = item => {
   return R.reduce(
     (obj, field) => {
@@ -37,27 +45,6 @@ const getRecords = url => {
   })
 }
 
-const Filters = {
-  COUNTRY: 'Country or Area',
-  YEAR: 'Year',
-  GREATPOWER: 'Great Power'
-}
-
-const getRecordsOld = (url, callback) => {
-  fs.readFile(url, 'utf-8', function(error, text) {
-    if (error) {
-      throw error
-    } else {
-      parser.parseString(text, function(err, result) {
-        const records = result['Root']['data'][0]['record']
-        console.log(records)
-        const parsed = R.map(parseByAttr, records)
-        callback(parsed)
-      })
-    }
-  })
-}
-
 const getCountries = parsedArr => {
   const byCountry = R.groupBy(el => el[Filters.COUNTRY].key)
   const codeAndName = R.map(el => el[0][Filters.COUNTRY].val, byCountry(parsedArr))
@@ -68,15 +55,15 @@ const mergeData = (pData, eData) => {
   const merged = R.map(item => {
     const co2Data = R.find(x => x['Year'].val == item['Year'].val)(eData)
     return {
-      ['Country or Area']: item['Country or Area'],
-      ['Year']: item['Year'],
+      [Filters.COUNTRY]: item[Filters.COUNTRY],
+      [Filters.YEAR]: item[Filters.YEAR],
       population: {
-        ['Item']: item['Item'],
-        ['Value']: item['Value']
+        [Filters.ITEM]: item[Filters.ITEM],
+        [Filters.VALUE]: item[Filters.VALUE]
       },
       co2: {
-        ['Item']: co2Data ? co2Data['Item'] : undefined,
-        ['Value']: co2Data ? co2Data['Value'] : undefined
+        [Filters.ITEM]: co2Data ? co2Data[Filters.ITEM] : undefined,
+        [Filters.VALUE]: co2Data ? co2Data[Filters.VALUE] : undefined
       }
     }
   }, pData)
