@@ -1,0 +1,23 @@
+{
+  "name": "co2viz",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node api_co2viz/app.js",
+    "heroku-postbuild": "cd client_co2viz && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "client": "cd client_co2viz && npm install && npm start",
+    "server": "nodemon api_co2viz/app.js"
+  },
+  "engines": {
+    "node": "10.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lindalevanen/CO2Viz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lindalevanen/CO2Viz/issues"
+  },
+  "homepage": "https://github.com/lindalevanen/CO2Viz#readme"
+}
