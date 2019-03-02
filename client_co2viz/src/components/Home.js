@@ -56,8 +56,10 @@ class Home extends Component {
   componentDidMount() {
     fetch('/api/countries')
       .then(response => {
-        console.log(response)
-        response.json()
+        if (response.status == 200) {
+          console.log(response)
+          return response.json()
+        }
       })
       .then(data => {
         this.setState({ countries: data })
