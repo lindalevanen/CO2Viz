@@ -8,6 +8,7 @@ const emissionsXML = __dirname + '/public/xmlfiles/API_EN.ATM.CO2E.KT_DS2_en_xml
 const populationXML = __dirname + '/public/xmlfiles/API_SP.POP.TOTL_DS2_en_xml_v2_10473997.xml'
 
 const Helpers = require('./util')
+const port = process.env.PORT || 5000;
 
 var app = express()
 
@@ -85,5 +86,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500)
   res.render('error')
 })
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 module.exports = app
