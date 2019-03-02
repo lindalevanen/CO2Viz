@@ -8,7 +8,7 @@ const emissionsXML = __dirname + '/public/xmlfiles/API_EN.ATM.CO2E.KT_DS2_en_xml
 const populationXML = __dirname + '/public/xmlfiles/API_SP.POP.TOTL_DS2_en_xml_v2_10473997.xml'
 
 const Helpers = require('./util')
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000
 
 var app = express()
 
@@ -38,8 +38,8 @@ app.get('/api/countryData', (req, res, next) => {
       const eData = filterData(eRecords, req.query)
       const mergedData = Helpers.mergeData(pData, eData)
       res.status(200).send(JSON.stringify(mergedData))
-
-    }).catch(e => {
+    })
+    .catch(e => {
       console.log(e)
     })
 })
@@ -87,6 +87,6 @@ app.use(function(err, req, res, next) {
   res.render('error')
 })
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`))
 
 module.exports = app
