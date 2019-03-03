@@ -54,7 +54,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    fetch('/api/test')
+    fetch('/api/countries')
       .then(response => {
         if (response.status == 200) {
           console.log(response)
@@ -62,8 +62,7 @@ class Home extends Component {
         }
       })
       .then(data => {
-        console.log(data)
-        //this.setState({ countries: data })
+        this.setState({ countries: data })
       })
       .catch(e => {
         console.log(e)
