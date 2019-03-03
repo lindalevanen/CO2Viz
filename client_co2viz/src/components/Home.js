@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Select from 'react-select'
 import makeAnimated from 'react-select/lib/animated'
 import styled, { withTheme } from 'styled-components'
-import { css } from '@emotion/core'
 import { PacmanLoader } from 'react-spinners'
 
 import CountryChart from './CountryChart'
@@ -56,9 +55,10 @@ class Home extends Component {
   componentDidMount() {
     fetch('/api/countries')
       .then(response => {
-        if (response.status == 200) {
-          console.log(response)
+        if (response.status === 200) {
           return response.json()
+        } else {
+          throw Error(response.statusText)
         }
       })
       .then(data => {
@@ -69,18 +69,19 @@ class Home extends Component {
       })
   }
 
+  /**
+   * Handles selected countries change,
+   * checks whether a country was removed or added, checks which country was added/removed,
+   * and changes countryData-state accordingly. (Could have been done better but not so good with js)
+   */
   handleChange = newCountries => {
     const oldCountries = this.state.selectedCountries
     if (newCountries.length > oldCountries.length) {
       const newC = R.filter(x => !oldCountries.includes(x), newCountries)
-      if (newC[0]) {
-        this.fetchCountryData(newC[0].value)
-      }
+      this.fetchCountryData(newC[0].value)
     } else {
       const oldC = R.filter(x => !newCountries.includes(x), oldCountries)
-      if (oldC[0]) {
-        this.setState({ countryData: { ...this.state.countryData, [oldC[0].value]: undefined } })
-      }
+      this.setState({ countryData: { ...this.state.countryData, [oldC[0].value]: undefined } })
     }
     this.setState({ selectedCountries: newCountries })
   }
@@ -88,7 +89,13 @@ class Home extends Component {
   fetchCountryData = code => {
     this.setState({ loading: true })
     fetch(`/api/countryData?country=${code}`)
-      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          return response.json()
+        } else {
+          throw Error(response.statusText)
+        }
+      })
       .then(data => {
         const countryStillSelected = R.find(R.propEq('value', code))(this.state.selectedCountries)
         if (countryStillSelected) {
@@ -104,15 +111,15 @@ class Home extends Component {
       })
       .catch(e => {
         this.setState({ loading: false })
-        console.error(e) // eorfsidkmcx
+        console.error(e)
       })
   }
 
   parseForChart = countryData => {
     const { perCapita } = this.state
     const parsedForChart = {}
-    Object.keys(this.state.countryData).forEach(key => {
-      const cd = this.state.countryData[key]
+    Object.keys(countryData).forEach(key => {
+      const cd = countryData[key]
       for (let x in cd) {
         const item = cd[x]
         const co2 = parseInt(item['co2']['Value'].val)
@@ -163,10 +170,12 @@ class Home extends Component {
             <span>Per Capita</span>
           </label>
 
+          {/* TODO: 
           <label>
             <Checkbox checked={this.state.withPCs} onChange={this.toggleWithPCs} />
             <span>Show Power Countries</span>
           </label>
+          */}
         </CheckboxRow>
 
         <DataWrapper>
