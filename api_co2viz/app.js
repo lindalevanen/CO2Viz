@@ -29,8 +29,8 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-app.get('/', (req, res, next) => {
-  res.send('Hello world!')
+app.get('/api/test', (req, res, next) => {
+  res.send('Connection to API works!')
 })
 
 app.get('/api/countryData', (req, res, next) => {
