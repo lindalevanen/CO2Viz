@@ -1,6 +1,6 @@
-Demo in Heroku will be added here soon!
+![Demo in Heroku!](https://co2-viz.herokuapp.com/)
 
-If you wish to try out the code, just pull it, run these in root:
+Or test it by pulling it and run these in root:
 
 For front:
 
