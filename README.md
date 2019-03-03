@@ -1,4 +1,4 @@
-![Demo in Heroku!](https://co2-viz.herokuapp.com/)
+[Demo in Heroku!](https://co2-viz.herokuapp.com/)
 
 Or test it by pulling it and run these in root:
 
