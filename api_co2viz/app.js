@@ -22,13 +22,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../client_co2viz/build')))
 
-if (process.env.NODE_ENV === 'production') {
-  // Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../client_co2viz/build', 'index.html'))
-  })
-}
-
 app.get('/api/test', (req, res, next) => {
   res.send('Connection to API works!')
 })
@@ -76,6 +69,13 @@ const filterData = (data, query) => {
     fData = Helpers.filterBy(Helpers.Filters.GREATPOWER, fData)
   }
   return fData
+}
+
+if (process.env.NODE_ENV === 'production') {
+  // Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, '../client_co2viz/build', 'index.html'))
+  })
 }
 
 // catch 404 and forward to error handler
